@@ -7,6 +7,7 @@ import { useFonts, RedHatText_400Regular } from '@expo-google-fonts/red-hat-text
 export default function LoginWelcome() {
   let [fontsLoaded] = useFonts({
     RedHatText_400Regular,
+    Gilroy_Bold: require('../../assets/fonts/Gilroy-Bold.ttf'),
   });
 
   if (!fontsLoaded) {
@@ -22,7 +23,7 @@ export default function LoginWelcome() {
         <Link href="/LoginMain" asChild>
           <Pressable style={styles.button}>
             <Text style={styles.buttonText}>
-              Login
+              Sign In
             </Text>
           </Pressable>
         </Link>
@@ -46,14 +47,14 @@ const styles = StyleSheet.create({
   },
   welcomeDrawing: {
     position: 'absolute',
-    width: '50%',
-    height: '50%',
+    width: '60%',
+    height: '60%',
     top: '15%',
     contentFit: 'contain',
   },
   continueButton: {
     position: 'absolute',
-    top: '75%',
+    top: '80%',
     alignItems: 'center',
   },
   button: {
@@ -61,17 +62,16 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(0, 0, 0, 0.05)",
     shadowOffset: { width: 4, height: 4 },
     borderRadius: 10,
-    paddingVertical: 30, // Adjust vertical padding as needed
-    paddingHorizontal: 50, // Adjust horizontal padding as needed
-    minWidth: 100, // Set minimum width
-    alignItems: 'center', // Center-align the text horizontally
-    justifyContent: 'center', // Center-align the text vertically
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    minWidth: 150,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
-    fontFamily: 'RedHatText_400Regular',
+    fontFamily: 'Gilroy_Bold',
     fontStyle: 'normal',
-    fontSize: 17,
-    lineHeight: 21,
+    fontSize: 26,
     textAlign: 'center',
     letterSpacing: 0.06,
     color: '#FFFFFF',
