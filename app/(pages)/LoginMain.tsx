@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
 import React from 'react'
 import { Image } from 'expo-image'
 import { useFonts, RedHatText_400Regular, RedHatText_700Bold, RedHatText_500Medium, RedHatText_300Light } from '@expo-google-fonts/red-hat-text';
+import { useAppContext } from '../utils/AppContext';
 
 
 export default function LoginMain() {
@@ -17,6 +18,49 @@ export default function LoginMain() {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [isPasswordVisible, setPasswordVisible] = React.useState(false);
+    const [buttonDisabled, setButtonDisabled] = React.useState(false);
+
+    const [errorMessage, setErrorMessage] = React.useState(null);
+
+    const { token, setToken } = useAppContext();
+
+    async function handleLogin() {
+        
+        if (email === '' || password === '') {
+            setErrorMessage("Please fill in all the fields.");
+            return;
+        }
+
+        setButtonDisabled(true);
+
+        const requestBody = {
+            username: email,
+            password: password
+        };
+    
+        try {
+            const response = await fetch("http://192.168.1.104:5000/login", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
+    
+            // Handle the response
+            const result = await response.json();
+    
+            // Save the token using the setToken function from your context
+            setToken(result.token);
+            console.log("Token:", result.token);
+            console.log("User:", result.userData);
+    
+        } catch (error) {
+            console.error("Error in login:", error);
+            // Re-enable the sign-in button if there is an error
+            setButtonDisabled(false);
+        }
+    }
 
     if (!fontsLoaded) {
         return null;
@@ -25,6 +69,10 @@ export default function LoginMain() {
     return (
         <View style={styles.container}>
             <Image style={styles.backgroundImage} source={require('../../assets/Login/Background.png')} />
+            <View style={{ width: "100%", justifyContent: "flex-end", alignItems: 'center', flexDirection: 'row'}}>
+                <Text style={{fontFamily: "Gilroy_Medium", fontSize: 17, marginRight: "2%"}}>English</Text>
+                <Image source={require("../../assets/Login/DropdownIcon.png")} style={{ width: 8, height: 8, marginRight: "8%" }} />
+            </View>
             <Text style={styles.signInToContinueText}>Sign In to Continue</Text>
             <View style={styles.inputContainer}>
                 <TextInput
@@ -35,7 +83,7 @@ export default function LoginMain() {
                     value={email}
                 />
                 <Pressable onPress={() => setEmail('')} style={styles.clearButton}>
-                    <Image source={require("../../assets/Login/ClearUsernameField.png")} style={{ width: 33, height: 33 }} />
+                    <Image source={require("../../assets/Login/ClearUsernameField.png")} style={{ width: 25, height: 25 }} />
                 </Pressable>
             </View>
 
@@ -52,13 +100,14 @@ export default function LoginMain() {
                     <Image source={isPasswordVisible
                     ? require("../../assets/Login/VisiblePasswordIcon.png")
                     : require("../../assets/Login/HiddenPasswordIcon.png"
-                        )} style={{ width: 33, height: 33 }} />
+                        )} style={{ width: 25, height: 25 }} />
                 </Pressable>
             </View>
 
-            <Pressable style={styles.signInButton}>
-                <Text style={styles.signInText}>Sign In</Text>
+            <Pressable style={styles.signInButton} onPress={handleLogin} disabled={buttonDisabled}>
+                {buttonDisabled ? <Image source={require("../../assets/Common/Loading.gif")} style={{ width: 25, height: 25 }} /> : <Text style={styles.signInText}>Sign In</Text>}
             </Pressable>
+            {errorMessage && <Text style={{ color: "red", fontFamily: "Gilroy_Medium", height: 20, marginTop: 5, marginBottom: -25 }}>{errorMessage}</Text>}
 
             <Text style={styles.readBefore}>Read before Signing In</Text>
 
@@ -92,9 +141,10 @@ const styles = StyleSheet.create({
         contentFit: 'cover',
     },
     signInToContinueText: {
-        marginTop: "10%",
+        marginTop: "15%",
+        marginBottom: "5%",
         fontFamily: 'Gilroy_Bold',
-        fontSize: 46,
+        fontSize: 32,
         textAlign: 'center',
         color: '#000',
     },
@@ -107,7 +157,7 @@ const styles = StyleSheet.create({
         marginTop: "5%",
         backgroundColor: '#FFFFFF',
         borderRadius: 10,
-        height: 80,
+        height: 60,
         // other styling based on your preference
     },
     clearButton: {
@@ -121,7 +171,7 @@ const styles = StyleSheet.create({
         color: '#4F555A',
         alignSelf: 'center',
         fontFamily: 'Gilroy_Medium',
-        fontSize: 26,
+        fontSize: 16,
         letterSpacing: 1
     },
     passwordInput: {
@@ -133,7 +183,7 @@ const styles = StyleSheet.create({
     },
     signInButton: {
         width: "85%",
-        height: 80,
+        height: 60,
         marginTop: "17%",
         backgroundColor: '#3C93FF',
         borderRadius: 10,
@@ -143,15 +193,14 @@ const styles = StyleSheet.create({
     },
     signInText: {
         fontFamily: 'Gilroy_Bold',
-        fontSize: 25,
+        fontSize: 19,
         letterSpacing: 0.5,
         color: '#FFFFFF',
     },
     readBefore: {
-        width: "36%",
-        marginTop: "6%",
+        marginTop: "5%",
         fontFamily: 'Gilroy_Medium',
-        fontSize: 18,
+        fontSize: 14,
         letterSpacing: 1.5,
         lineHeight: 77,
         textAlign: 'center',
@@ -159,19 +208,18 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     importantNoteContainer: {
-        marginTop: "6%",
+        marginTop: "5%",
         backgroundColor: '#FFFFFF',
-        width: "85%",
-        height: "7%",
+        width: "90%",
+        height: 70,
         justifyContent: 'center',
         borderRadius: 10,
-        paddingVertical: 5,
-        paddingHorizontal: 40
+        paddingVertical: 5
     },
     importantNote: {
         fontFamily: 'Gilroy_Medium',
-        fontSize: 16,
-        // lineHeight: 13,
+        fontSize: 11,
+        lineHeight: 13,
         textAlign: 'center',
         color: 'rgba(0, 0, 0, 0.6)',
         alignSelf: 'center',
@@ -182,12 +230,14 @@ const styles = StyleSheet.create({
     },
     contactContainerText: {
         fontFamily: 'Gilroy_Medium',
-        letterSpacing: 1
+        letterSpacing: 1,
+        fontSize: 11
     },
     contactContainerTextBlue: {
         fontFamily: 'Gilroy_Medium',
         textDecorationLine: 'underline',
         color: '#3C93FF',
-        letterSpacing: 1
+        letterSpacing: 1,
+        fontSize: 11
     },
 });

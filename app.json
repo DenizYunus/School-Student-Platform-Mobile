@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "UBIS-Redesign-Mobile",
-    "slug": "UBIS-Redesign-Mobile",
+    "name": "UBIS Unofficial Redesign",
+    "slug": "ubis-redesign",
+    "description": "An unofficial app by a fan of fun to redesign the app and make it more user friendly.",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,6 +20,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.meettalia.ubisredesign",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -29,6 +31,14 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d3d32069-75c9-4b4d-b556-a79cc0607dd5"
+      }
+    }
   }
 }

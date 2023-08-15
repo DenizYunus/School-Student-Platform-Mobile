@@ -3,12 +3,15 @@ import React from 'react'
 import { Link } from 'expo-router'
 import { Image } from 'expo-image'
 import { useFonts, RedHatText_400Regular } from '@expo-google-fonts/red-hat-text';
+import { useAppContext } from '../utils/AppContext';
 
 export default function LoginWelcome() {
   let [fontsLoaded] = useFonts({
     RedHatText_400Regular,
     Gilroy_Bold: require('../../assets/fonts/Gilroy-Bold.ttf'),
   });
+
+  // const { token, setToken, user, setUser, settings, setSettings } = useAppContext();
 
   if (!fontsLoaded) {
     return null;
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: 'Gilroy_Bold',
     fontStyle: 'normal',
-    fontSize: 26,
+    fontSize: 19,
     textAlign: 'center',
     letterSpacing: 0.06,
     color: '#FFFFFF',
