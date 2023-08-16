@@ -3,7 +3,6 @@ import React from 'react'
 import { Link } from 'expo-router'
 import { Image } from 'expo-image'
 import { useFonts, RedHatText_400Regular } from '@expo-google-fonts/red-hat-text';
-import { useAppContext } from '../utils/AppContext';
 
 export default function LoginWelcome() {
   let [fontsLoaded] = useFonts({

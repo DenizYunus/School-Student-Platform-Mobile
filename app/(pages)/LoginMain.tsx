@@ -3,7 +3,7 @@ import React from 'react'
 import { Image } from 'expo-image'
 import { useFonts, RedHatText_400Regular, RedHatText_700Bold, RedHatText_500Medium, RedHatText_300Light } from '@expo-google-fonts/red-hat-text';
 import { useAppContext } from '../utils/AppContext';
-
+import { router } from 'expo-router';
 
 export default function LoginMain() {
     let [fontsLoaded] = useFonts({
@@ -22,7 +22,34 @@ export default function LoginMain() {
 
     const [errorMessage, setErrorMessage] = React.useState(null);
 
-    const { token, setToken } = useAppContext();
+    const { setToken, setUser, setAnnouncements } = useAppContext();
+
+    async function getAnnouncements(token, user) {
+        try {
+          // Send a GET request to the announcements endpoint
+          const response = await fetch(process.env.EXPO_PUBLIC_API_URL + "/get-announcements", {
+            method: 'GET',
+            headers: {
+              'Authorization': token, // Pass the token in the Authorization header
+            },
+          });
+      
+          const announcements = await response.json();
+
+          setAnnouncements(announcements);
+      
+          console.log("Name: ", user.name);
+          console.log("Student Number: ", user.studentNumber);
+          console.log("Email: ", user.email);
+          console.log("Announcements: ", announcements);
+          console.log("base64Image: ", user.base64Image);
+
+          router.replace("/MainPage")
+        } catch (error) {
+          console.error("Error fetching announcements:", error);
+        }
+      }
+      
 
     async function handleLogin() {
         
@@ -39,7 +66,7 @@ export default function LoginMain() {
         };
     
         try {
-            const response = await fetch("http://192.168.1.104:5000/login", {
+            const response = await fetch(process.env.EXPO_PUBLIC_API_URL + "/login", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,8 +79,10 @@ export default function LoginMain() {
     
             // Save the token using the setToken function from your context
             setToken(result.token);
-            console.log("Token:", result.token);
-            console.log("User:", result.userData);
+            setUser(result.userData);
+
+            getAnnouncements(result.token, result.userData);
+            
     
         } catch (error) {
             console.error("Error in login:", error);
@@ -68,7 +97,7 @@ export default function LoginMain() {
 
     return (
         <View style={styles.container}>
-            <Image style={styles.backgroundImage} source={require('../../assets/Login/Background.png')} />
+            <Image style={styles.backgroundImage} source={require('../../assets/Common/Background.png')} />
             <View style={{ width: "100%", justifyContent: "flex-end", alignItems: 'center', flexDirection: 'row'}}>
                 <Text style={{fontFamily: "Gilroy_Medium", fontSize: 17, marginRight: "2%"}}>English</Text>
                 <Image source={require("../../assets/Login/DropdownIcon.png")} style={{ width: 8, height: 8, marginRight: "8%" }} />

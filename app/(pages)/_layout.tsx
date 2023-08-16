@@ -11,6 +11,7 @@ export default () => {
                 <Tabs screenOptions={{ headerShown: false, tabBarStyle: { display: "none" } }}>
                     <Tabs.Screen name="LoginWelcome" />
                     <Tabs.Screen name="LoginMain" />
+                    <Tabs.Screen name="MainPage" />
                 </Tabs>
             </AppProvider>
         </SafeAreaProvider>
