@@ -57,6 +57,51 @@ export default function LoginWelcome() {
                 date: '03.08.2023',
                 type: 'Course',
               },
+              {
+                announcement: '2023-2024 Akademik Yılı Güz Dönemi Başlangıç Tarihi Hakkında',
+                date: '29.08.2023',
+                type: 'General',
+              },
+              {
+                announcement: '2022-2023 Eğitim ve Öğretim Yılı YAZ Dönemi Ortak Dersler FİNAL SINAV Çizelgesi',
+                date: '26.08.2023',
+                type: 'Department',
+              },
+              {
+                announcement: '2022-2023 Eğitim ve Öğretim Yılı YAZ Dönemi Ortak Dersler ARA SINAV Çizelgesi',
+                date: '03.08.2023',
+                type: 'Course',
+              },
+              {
+                announcement: '2023-2024 Akademik Yılı Güz Dönemi Başlangıç Tarihi Hakkında',
+                date: '29.08.2023',
+                type: 'General',
+              },
+              {
+                announcement: '2022-2023 Eğitim ve Öğretim Yılı YAZ Dönemi Ortak Dersler FİNAL SINAV Çizelgesi',
+                date: '26.08.2023',
+                type: 'Department',
+              },
+              {
+                announcement: '2022-2023 Eğitim ve Öğretim Yılı YAZ Dönemi Ortak Dersler ARA SINAV Çizelgesi',
+                date: '03.08.2023',
+                type: 'Course',
+              },
+              {
+                announcement: '2023-2024 Akademik Yılı Güz Dönemi Başlangıç Tarihi Hakkında',
+                date: '29.08.2023',
+                type: 'General',
+              },
+              {
+                announcement: '2022-2023 Eğitim ve Öğretim Yılı YAZ Dönemi Ortak Dersler FİNAL SINAV Çizelgesi',
+                date: '26.08.2023',
+                type: 'Department',
+              },
+              {
+                announcement: '2022-2023 Eğitim ve Öğretim Yılı YAZ Dönemi Ortak Dersler ARA SINAV Çizelgesi',
+                date: '03.08.2023',
+                type: 'Course',
+              },
             ],
           }
 

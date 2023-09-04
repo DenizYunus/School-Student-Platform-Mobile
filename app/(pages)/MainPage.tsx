@@ -102,7 +102,8 @@ const styles = StyleSheet.create({
         fontFamily: "Gilroy_Bold",
         fontSize: 21,
         color: "#000",
-        marginBottom: 15
+        marginBottom: 15,
+        marginTop: 15
     },
     quickAccessContainer: {
         flexDirection: "row",
