@@ -23,7 +23,7 @@ export default function AnnouncementsOverview({announcements}) {
                 <Text>{selectedType} Announcements</Text>
             </View>
             <View>
-                <Image source={require("../../assets/Common/LongSeperatorAnnouncementsLeft.png")} />
+                <Image source={require("../../assets/Common/LongSeperatorAnnouncementsLeft.png")} style={{height: 150}} />
                 <View>
                     {announcements.filter(a => a.type === selectedType).map((item, index) => (
                         <Text key={index}>{item.announcement}</Text>
