@@ -38,4 +38,4 @@ A modern, user-friendly mobile application for my school, developed using React 
 3. **Data Display**: Announcements, names, images, and lessons are displayed in a user-friendly interface.
 
 Still Under Development. You can test it's functionality now. Some screens are working atm. Too see the result install the express backend (easy, npm i and node app.js) and run expo app (npx expo start). You can access the UI design here:
-[Click Here](https://www.behance.net/gallery/179237463/School-Student-Platform-Redesign)https://www.behance.net/gallery/179237463/School-Student-Platform-Redesign
+[Click Here](https://www.behance.net/gallery/179237463/School-Student-Platform-Redesign) This design is also completely belong to me with even illustrations 😄
