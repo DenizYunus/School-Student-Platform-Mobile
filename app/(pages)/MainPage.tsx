@@ -43,29 +43,43 @@ export default function MainPage() {
                         <Text style={styles.headingMain}>Announcements!</Text>
                         <AnnouncementsOverview announcements={announcements} />
                     </View>
-                    <Text style={styles.quickAccessText}>Quick Access</Text>
-                    <View style={styles.quickAccessContainer}>
-                        <View style={styles.quickAccessItem}>
-                            <Pressable>
-                                <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
-                                <Text style={styles.quickAccessItemText}>Online Lessons</Text>
-                            </Pressable>
-                        </View>
-                        <View style={styles.quickAccessItem}>
-                            <Pressable>
-                                <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
-                                <Text style={styles.quickAccessItemText}>Homeworks</Text>
-                            </Pressable>
-                        </View>
-                        <View style={styles.quickAccessItem}>
-                            <Pressable>
-                                <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
-                                <Text style={styles.quickAccessItemText}>Attendance</Text>
-                            </Pressable>
-                        </View>
-                        <View style={styles.quickAccessItem}>
-                            <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
-                            <Text style={styles.quickAccessItemText}>Sunny</Text>
+                    <View style={{ width: "100%", bottom: 60, position: "absolute", alignSelf: "center" }}>
+                        <Text style={styles.quickAccessText}>Quick Access</Text>
+                        <View style={styles.quickAccessContainer}>
+                            <View style={styles.quickAccessItem}>
+                                <Pressable>
+                                    <View style={{ display: "flex", height: 55, justifyContent: "center", alignItems: "center" }}>
+                                        <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
+                                        <Image source={require("../../assets/Common/OnlineLessonsQuickAccess.png")} style={{ width: 30, height: 30 }} />
+                                    </View>
+                                    <Text style={styles.quickAccessItemText}>Online Lessons</Text>
+                                </Pressable>
+                            </View>
+                            <View style={styles.quickAccessItem}>
+                                <Pressable>
+                                     <View style={{ display: "flex", height: 55, justifyContent: "center", alignItems: "center" }}>
+                                        <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
+                                        <Image source={require("../../assets/Common/HomeWorksQuickAccess.png")} style={{ width: 30, height: 30 }} />
+                                    </View>
+                                    <Text style={styles.quickAccessItemText}>Homeworks</Text>
+                                </Pressable>
+                            </View>
+                            <View style={styles.quickAccessItem}>
+                                <Pressable>
+                                     <View style={{ display: "flex", height: 55, justifyContent: "center", alignItems: "center" }}>
+                                        <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
+                                        <Image source={require("../../assets/Common/AttendencyQuickAccess.png")} style={{ width: 30, height: 30 }} />
+                                    </View>
+                                    <Text style={styles.quickAccessItemText}>Attendance</Text>
+                                </Pressable>
+                            </View>
+                            <View style={styles.quickAccessItem}>
+                                 <View style={{ display: "flex", height: 55, justifyContent: "center", alignItems: "center" }}>
+                                        <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
+                                        <Image source={require("../../assets/Common/OnlineLessonsQuickAccess.png")} style={{ width: 30, height: 30 }} />
+                                    </View>
+                                <Text style={styles.quickAccessItemText}>Sunny</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -118,7 +132,8 @@ const styles = StyleSheet.create({
         width: 55,
         height: 55,
         borderRadius: 50,
-        alignSelf: "center"
+        alignSelf: "center",
+        position: "absolute"
     },
     quickAccessItemText: {
         fontFamily: "Gilroy_SemiBold",
