@@ -4,6 +4,7 @@ import { Image } from 'expo-image'
 import { useFonts, RedHatText_400Regular, RedHatText_700Bold, RedHatText_500Medium, RedHatText_300Light } from '@expo-google-fonts/red-hat-text';
 import { useAppContext } from '../utils/AppContext';
 import { router } from 'expo-router';
+import { getLoginAddress, performLoginAndGetLinks, getDashboardData, getLessonDetails } from '../utils/RequestsManager';
 
 export default function LoginMain() {
     let [fontsLoaded] = useFonts({
@@ -26,33 +27,33 @@ export default function LoginMain() {
 
     async function getAnnouncements(token, user) {
         try {
-          // Send a GET request to the announcements endpoint
-          const response = await fetch(process.env.EXPO_PUBLIC_API_URL + "/get-announcements", {
-            method: 'GET',
-            headers: {
-              'Authorization': token, // Pass the token in the Authorization header
-            },
-          });
-      
-          const announcements = await response.json();
+            // Send a GET request to the announcements endpoint
+            const response = await fetch(process.env.EXPO_PUBLIC_API_URL + "/get-announcements", {
+                method: 'GET',
+                headers: {
+                    'Authorization': token, // Pass the token in the Authorization header
+                },
+            });
 
-          setAnnouncements(announcements);
-      
-          console.log("Name: ", user.name);
-          console.log("Student Number: ", user.studentNumber);
-          console.log("Email: ", user.email);
-          console.log("Announcements: ", announcements);
-          console.log("base64Image: ", user.base64Image);
+            const announcements = await response.json();
 
-          router.replace("/MainPage")
+            setAnnouncements(announcements);
+
+            console.log("Name: ", user.name);
+            console.log("Student Number: ", user.studentNumber);
+            console.log("Email: ", user.email);
+            console.log("Announcements: ", announcements);
+            console.log("base64Image: ", user.base64Image);
+
+            router.replace("/MainPage")
         } catch (error) {
-          console.error("Error fetching announcements:", error);
+            console.error("Error fetching announcements:", error);
         }
-      }
-      
+    }
+
 
     async function handleLogin() {
-        
+
         if (email === '' || password === '') {
             setErrorMessage("Please fill in all the fields.");
             return;
@@ -60,35 +61,56 @@ export default function LoginMain() {
 
         setButtonDisabled(true);
 
-        const requestBody = {
-            username: email,
-            password: password
-        };
-    
-        try {
-            const response = await fetch(process.env.EXPO_PUBLIC_API_URL + "/login", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody)
-            });
-    
-            // Handle the response
-            const result = await response.json();
-    
-            // Save the token using the setToken function from your context
-            setToken(result.token);
-            setUser(result.userData);
+        const actionURL = await getLoginAddress();
+        if (actionURL) {
+            // console.log(actionURL);
+            const links = await performLoginAndGetLinks(actionURL, email, password);
 
-            getAnnouncements(result.token, result.userData);
-            
-    
-        } catch (error) {
-            console.error("Error in login:", error);
-            // Re-enable the sign-in button if there is an error
-            setButtonDisabled(false);
+            if (links) {
+                for (const link of links) {
+                    if (link.includes("YazildigimDersler")) {
+                        const details = await getLessonDetails(`https://ubism.aydin.edu.tr${link}`);
+                        if (details) {
+                            console.log(details);  // It will be an array of objects containing lessonName and teacherName.
+                        }
+                    }
+
+                    // console.log("-------------- " + link + " --------------")
+                    // const data = await getDashboardData(link);
+                    // console.log(data);
+                }
+            }
         }
+
+        // const requestBody = {
+        //     username: email,
+        //     password: password
+        // };
+
+        // try {
+        //     const response = await fetch(process.env.EXPO_PUBLIC_API_URL + "/login", {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(requestBody)
+        //     });
+
+        //     // Handle the response
+        //     const result = await response.json();
+
+        //     // Save the token using the setToken function from your context
+        //     setToken(result.token);
+        //     setUser(result.userData);
+
+        //     getAnnouncements(result.token, result.userData);
+
+
+        // } catch (error) {
+        //     console.error("Error in login:", error);
+        //     // Re-enable the sign-in button if there is an error
+        //     setButtonDisabled(false);
+        // }
     }
 
     if (!fontsLoaded) {
@@ -98,8 +120,8 @@ export default function LoginMain() {
     return (
         <View style={styles.container}>
             <Image style={styles.backgroundImage} source={require('../../assets/Common/Background.png')} />
-            <View style={{ width: "100%", justifyContent: "flex-end", alignItems: 'center', flexDirection: 'row'}}>
-                <Text style={{fontFamily: "Gilroy_Medium", fontSize: 17, marginRight: "2%"}}>English</Text>
+            <View style={{ width: "100%", justifyContent: "flex-end", alignItems: 'center', flexDirection: 'row' }}>
+                <Text style={{ fontFamily: "Gilroy_Medium", fontSize: 17, marginRight: "2%" }}>English</Text>
                 <Image source={require("../../assets/Login/DropdownIcon.png")} style={{ width: 8, height: 8, marginRight: "8%" }} />
             </View>
             <Text style={styles.signInToContinueText}>Sign In to Continue</Text>
@@ -127,8 +149,8 @@ export default function LoginMain() {
                 />
                 <Pressable onPress={() => setPasswordVisible(!isPasswordVisible)} style={styles.visibilityButton}>
                     <Image source={isPasswordVisible
-                    ? require("../../assets/Login/VisiblePasswordIcon.png")
-                    : require("../../assets/Login/HiddenPasswordIcon.png"
+                        ? require("../../assets/Login/VisiblePasswordIcon.png")
+                        : require("../../assets/Login/HiddenPasswordIcon.png"
                         )} style={{ width: 25, height: 25 }} />
                 </Pressable>
             </View>
