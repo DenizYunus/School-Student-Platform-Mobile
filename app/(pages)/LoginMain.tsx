@@ -16,8 +16,8 @@ export default function LoginMain() {
         Gilroy_Medium: require('../../assets/fonts/Gilroy-Medium.ttf'),
     });
 
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [email, setEmail] = React.useState('B1905.010031');
+    const [password, setPassword] = React.useState('RedCat123');
     const [isPasswordVisible, setPasswordVisible] = React.useState(false);
     const [buttonDisabled, setButtonDisabled] = React.useState(false);
 
@@ -25,31 +25,31 @@ export default function LoginMain() {
 
     const { setToken, setUser, setAnnouncements } = useAppContext();
 
-    async function getAnnouncements(token, user) {
-        try {
-            // Send a GET request to the announcements endpoint
-            const response = await fetch(process.env.EXPO_PUBLIC_API_URL + "/get-announcements", {
-                method: 'GET',
-                headers: {
-                    'Authorization': token, // Pass the token in the Authorization header
-                },
-            });
+    // async function getAnnouncements(token, user) {
+    //     try {
+    //         // Send a GET request to the announcements endpoint
+    //         const response = await fetch(process.env.EXPO_PUBLIC_API_URL + "/get-announcements", {
+    //             method: 'GET',
+    //             headers: {
+    //                 'Authorization': token, // Pass the token in the Authorization header
+    //             },
+    //         });
 
-            const announcements = await response.json();
+    //         const announcements = await response.json();
 
-            setAnnouncements(announcements);
+    //         setAnnouncements(announcements);
 
-            console.log("Name: ", user.name);
-            console.log("Student Number: ", user.studentNumber);
-            console.log("Email: ", user.email);
-            console.log("Announcements: ", announcements);
-            console.log("base64Image: ", user.base64Image);
+    //         console.log("Name: ", user.name);
+    //         console.log("Student Number: ", user.studentNumber);
+    //         console.log("Email: ", user.email);
+    //         console.log("Announcements: ", announcements);
+    //         console.log("base64Image: ", user.base64Image);
 
-            router.replace("/MainPage")
-        } catch (error) {
-            console.error("Error fetching announcements:", error);
-        }
-    }
+    //         router.replace("/MainPage")
+    //     } catch (error) {
+    //         console.error("Error fetching announcements:", error);
+    //     }
+    // }
 
 
     async function handleLogin() {
@@ -64,22 +64,28 @@ export default function LoginMain() {
         const actionURL = await getLoginAddress();
         if (actionURL) {
             // console.log(actionURL);
-            const links = await performLoginAndGetLinks(actionURL, email, password);
+            // const links = await performLoginAndGetLinks(actionURL, email, password);
 
-            if (links) {
-                for (const link of links) {
-                    if (link.includes("YazildigimDersler")) {
-                        const details = await getLessonDetails(`https://ubism.aydin.edu.tr${link}`);
-                        if (details) {
-                            console.log(details);  // It will be an array of objects containing lessonName and teacherName.
-                        }
-                    }
-
-                    // console.log("-------------- " + link + " --------------")
-                    // const data = await getDashboardData(link);
-                    // console.log(data);
-                }
+            const lessons = await getLessonDetails(`https://ubism.aydin.edu.tr/?Pointer=MobileApp&Page=YazildigimDersler`);
+            if (lessons) {
+                console.log(lessons);  // It will be an array of objects containing lessonName and teacherName.
             }
+            router.replace("/MainPage");
+
+            // if (links) {
+            //     for (const link of links) {
+            //         if (link.includes("YazildigimDersler")) {
+            //             const details = await getLessonDetails(`https://ubism.aydin.edu.tr/?Pointer=MobileApp&Page=YazildigimDersler`);
+            //             if (details) {
+            //                 console.log(details);  // It will be an array of objects containing lessonName and teacherName.
+            //             }
+            //         }
+
+            //         // console.log("-------------- " + link + " --------------")
+            //         // const data = await getDashboardData(link);
+            //         // console.log(data);
+            //     }
+            // }
         }
 
         // const requestBody = {

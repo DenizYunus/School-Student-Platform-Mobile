@@ -1,14 +1,16 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image } from 'expo-image';
 import { useAppContext } from '../utils/AppContext';
 import UpcomingLessonJoin from '../components/UpcomingLessonJoin';
 import AnnouncementsOverview from '../components/AnnouncementsOverview';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
+import { getAnnouncements } from '../utils/RequestsManager';
 
 export default function MainPage() {
-    const { user, announcements } = useAppContext();
+    const { user, announcements, setAnnouncements } = useAppContext();
+    const [announcementsState, setAnnouncementsState] = useState([]);
 
     let [fontsLoaded] = useFonts({
         Gilroy_Bold: require('../../assets/fonts/Gilroy-Bold.ttf'),
@@ -16,11 +18,28 @@ export default function MainPage() {
         Gilroy_SemiBold: require('../../assets/fonts/Gilroy-SemiBold.ttf'),
     });
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const gotAnnouncements = await getAnnouncements();
+            if (gotAnnouncements) {
+                // setAnnouncements(gotAnnouncements);
+                setAnnouncementsState(gotAnnouncements);
+                // console.log(gotAnnouncements);
+            }
+        };
+        fetchData();
+    }, []);
+
     if (!fontsLoaded) {
         return <Text>Loading...</Text>;
     }
 
-    console.log(user.base64Image)
+    // const { generalAnnouncements, facultyAnnouncements, courseAnnouncements } = await getAnnouncements(`https://ubism.aydin.edu.tr/?Pointer=MobileApp&Page=News`);
+    // if (generalAnnouncements) {
+    //     console.log(generalAnnouncements);
+    // }
+
+    // console.log(user.base64Image)
     return (
         <View style={{ flex: 1 }}>
             <Image style={styles.backgroundImage} source={require('../../assets/Common/Background.png')} />
@@ -29,9 +48,9 @@ export default function MainPage() {
                     <View style={{ width: "100%", flexDirection: "row", alignContent: "center", justifyContent: "space-between" }}>
                         <View>
                             <Text style={{ fontFamily: "Gilroy_Medium", fontSize: 14, color: "#ACADAC" }}>Welcome</Text>
-                            <Text style={{ fontFamily: "Gilroy_SemiBold", fontSize: 14, color: "#000", marginTop: 5 }}>{user.name}</Text>
+                            {/* <Text style={{ fontFamily: "Gilroy_SemiBold", fontSize: 14, color: "#000", marginTop: 5 }}>{user.name}</Text> */}
                         </View>
-                        <Image source={{ uri: user.base64Image }} style={{ width: 40, height: 40, borderRadius: 50 }} />
+                        {/* <Image source={{ uri: user.base64Image }} style={{ width: 40, height: 40, borderRadius: 50 }} /> */}
                     </View>
                     <View style={{ width: "100%", marginTop: 15 }}>
                         <Text style={styles.headingIntro}>Join The</Text>
@@ -41,7 +60,7 @@ export default function MainPage() {
                     <View style={{ width: "100%", marginTop: 15 }}>
                         <Text style={styles.headingIntro}>Do Not Miss These</Text>
                         <Text style={styles.headingMain}>Announcements!</Text>
-                        <AnnouncementsOverview announcements={announcements} />
+                        <AnnouncementsOverview announcements={announcementsState} />
                     </View>
                     <View style={{ width: "100%", bottom: 60, position: "absolute", alignSelf: "center" }}>
                         <Text style={styles.quickAccessText}>Quick Access</Text>
@@ -57,7 +76,7 @@ export default function MainPage() {
                             </View>
                             <View style={styles.quickAccessItem}>
                                 <Pressable>
-                                     <View style={{ display: "flex", height: 55, justifyContent: "center", alignItems: "center" }}>
+                                    <View style={{ display: "flex", height: 55, justifyContent: "center", alignItems: "center" }}>
                                         <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
                                         <Image source={require("../../assets/Common/HomeWorksQuickAccess.png")} style={{ width: 30, height: 30 }} />
                                     </View>
@@ -66,7 +85,7 @@ export default function MainPage() {
                             </View>
                             <View style={styles.quickAccessItem}>
                                 <Pressable>
-                                     <View style={{ display: "flex", height: 55, justifyContent: "center", alignItems: "center" }}>
+                                    <View style={{ display: "flex", height: 55, justifyContent: "center", alignItems: "center" }}>
                                         <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
                                         <Image source={require("../../assets/Common/AttendencyQuickAccess.png")} style={{ width: 30, height: 30 }} />
                                     </View>
@@ -74,10 +93,10 @@ export default function MainPage() {
                                 </Pressable>
                             </View>
                             <View style={styles.quickAccessItem}>
-                                 <View style={{ display: "flex", height: 55, justifyContent: "center", alignItems: "center" }}>
-                                        <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
-                                        <Image source={require("../../assets/Common/OnlineLessonsQuickAccess.png")} style={{ width: 30, height: 30 }} />
-                                    </View>
+                                <View style={{ display: "flex", height: 55, justifyContent: "center", alignItems: "center" }}>
+                                    <Image source={require("../../assets/Common/CircleDot.png")} style={styles.quickAccessItemImage} />
+                                    <Image source={require("../../assets/Common/OnlineLessonsQuickAccess.png")} style={{ width: 30, height: 30 }} />
+                                </View>
                                 <Text style={styles.quickAccessItemText}>Sunny</Text>
                             </View>
                         </View>

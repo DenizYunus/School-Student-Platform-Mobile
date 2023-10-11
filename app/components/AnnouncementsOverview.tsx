@@ -28,6 +28,8 @@ export default function AnnouncementsOverview({ announcements }) {
         return <Text>Loading...</Text>;
     }
 
+    console.log(announcements);
+
     const getButtonStyle = (type) => {
         return type === selectedType ?
             { width: "130%", height: 50, backgroundColor: "white", elevation: 20, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 5, marginTop: 5, borderColor: "#0001", borderWidth: 2, alignItems: "center", flexDirection: "row" } :
@@ -63,15 +65,15 @@ export default function AnnouncementsOverview({ announcements }) {
                             </View>
                         </View>
                     </Pressable>
-                    <Pressable onPress={() => setSelectedType('Department')}>
-                        <View style={getButtonStyle('Department') as any}>
+                    <Pressable onPress={() => setSelectedType('Faculty')}>
+                        <View style={getButtonStyle('Faculty') as any}>
                             <View style={{ flexDirection: "column", alignItems: "center" }}>
                                 <Image style={{ width: 15, height: 15 }} source={require("../../assets/Common/CircleDot.png")} />
                                 <Image source={require("../../assets/Common/LongSeperatorAnnouncementsLeft.png")} style={{ height: 10, width: 2, marginTop: 2, opacity: 0.4 }} />
                             </View>
                             <View style={{ flexDirection: "column" }}>
-                                <Text style={{ fontFamily: "Gilroy_SemiBold", fontSize: 13 }}>Department</Text>
-                                <Text style={{ fontFamily: "Gilroy_Medium", fontSize: 11 }}>Department</Text>
+                                <Text style={{ fontFamily: "Gilroy_SemiBold", fontSize: 13 }}>Faculty</Text>
+                                <Text style={{ fontFamily: "Gilroy_Medium", fontSize: 11 }}>Faculty</Text>
                             </View>
                         </View>
                     </Pressable>
